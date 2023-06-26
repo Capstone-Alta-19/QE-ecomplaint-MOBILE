@@ -8,7 +8,6 @@ import io.cucumber.java.Scenario;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class DriverHook {
-    String runOn = "browserstack";
+    String runOn = "local";
 
     public static AndroidDriver driver;
 
@@ -37,7 +36,7 @@ public class DriverHook {
 
     @After
     public void quitDriver(Scenario scenario) {
-        setBrowserstackStatus(!scenario.isFailed());
+       // setBrowserstackStatus(!scenario.isFailed());
         driver.quit();
         System.out.println("""
 
@@ -53,27 +52,27 @@ public class DriverHook {
         logger.info("See reports: "+System.getProperty("user.dir")+"/reports/cucumber_reports/report.html");
     }
 
-    void setBrowserstackStatus(boolean status) {
-        JavascriptExecutor jse = driver;
+//  void setBrowserstackStatus(boolean status) {
+//     JavascriptExecutor jse = driver;
 
-        if (!status) {
-            jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"failed\"}}");
-        } else {
-            jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"passed\"}}");
-        }
-    }
+// if (!status) {
+//   jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"failed\"}}");
+// } else {
+//   jse.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\": \"passed\"}}");
+// }
+//}
 
     void useLocalDriver() throws MalformedURLException {
         UiAutomator2Options options = new UiAutomator2Options()
-                .setUdid("emulator-5554") // get from command "adb devices"
-                .setAppPackage("org.wikipedia") // change to package name of application to be tested
-                .setAppActivity("org.wikipedia.main.MainActivity"); // set to main activity of the application
+                .setUdid("ce011821b19b652a057e") // get from command "adb devices"
+                .setAppPackage("com.example.complainz") // change to package name of application to be tested
+                .setAppActivity("com.example.complainz.MainActivity"); // set to main activity of the application
         driver = new AndroidDriver(new URL("http://localhost:4723"), options);
     }
 
     void setBrowserstackCapabilities(Scenario scenario) throws Exception {
         JSONParser parser = new JSONParser();
-        JSONObject config = (JSONObject) parser.parse(new FileReader("src/test/java/bsconfig.json"));
+        JSONObject config = (JSONObject) parser.parse(new FileReader("src/test/java/starter/bsconfig.json"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 

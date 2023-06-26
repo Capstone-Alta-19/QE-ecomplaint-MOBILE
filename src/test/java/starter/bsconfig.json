@@ -1,0 +1,18 @@
+{
+  "server": "hub-cloud.browserstack.com",
+  "username": "joojiju_QVx7f2",
+  "access_key": "SmpfmQ2obmPzUEhCHkxQ",
+
+  "capabilities": {
+    "project": "Capstone Kelompok 19",
+    "browserstack.debug": true,
+    "app": "bs://c0d07177f2ce60b7741c28c6481990c527a35226"
+  },
+
+  "environments": [
+    {
+      "deviceName": "Google Pixel 3",
+      "os_version": "9.0"
+    }
+  ]
+}

@@ -1,58 +1,213 @@
 package starter.stepdefinitions;
 
+import com.github.javafaker.Faker;
 import io.appium.java_client.AppiumBy;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static starter.stepdefinitions.DriverHook.driver;
 
 public class StepDefinitions {
-    @Given("Aplikasi Wikipedia terbuka")
-    public void openWikipediaApp() {
-        assertEquals("org.wikipedia", driver.getCurrentPackage());
+    Faker faker = new Faker(new Locale("in-ID"));
+    String randomEmail = faker.internet().emailAddress();
+    String randomPassword = faker.internet().password();
+    String randomFullName = faker.name().fullName();
+    String randomTelNum = faker.phoneNumber().phoneNumber();
+    String randomProvince = faker.address().state();
+    String randomCity = faker.address().cityName();
+    String randomAddress = faker.address().fullAddress();
+    @Given("User open complaintz app")
+    public void userOpenComplaintzApp() {
+        assertEquals("com.example.complainz", driver.getCurrentPackage());
     }
 
-    @And("Skip pemilihan bahasa")
-    public void skipLanguageChoser() {
-        WebElement skipButton = driver.findElement(AppiumBy.id("org.wikipedia:id/fragment_onboarding_skip_button"));
+    @And("User click Skip button")
+    public void userClickSkipButton() {
+        WebElement skipButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Skip\"]"));
         skipButton.click();
     }
 
-    @And("Klik search bar")
-    public void clickSearchBar() {
-        WebElement searchField = driver.findElement(AppiumBy.id("org.wikipedia:id/search_container"));
-        searchField.click();
+    @And("User click Sudah Punya Akun, Masuk button")
+    public void userClickSudahPunyaAkunMasukButton() {
+        WebElement loginButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Sudah Punya Akun, Masuk\"]"));
+        loginButton.click();
     }
 
-    @And("Ketik {string} dan tekan enter")
-    public void inputSearchKeyword(String keyword) {
-        WebElement searchFieldInput = driver.findElement(AppiumBy.id("org.wikipedia:id/search_src_text"));
-        searchFieldInput.sendKeys(keyword);
+    @And("User click Masuk button")
+    public void userClickMasukButton() {
+        WebElement masukButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Masuk\"]"));
+        masukButton.click();
     }
 
-    @And("Pilih hasil yang pertama")
-    public void chooseFirstResult() {
-        WebElement firstResult = driver.findElement(AppiumBy.xpath("(//*[@resource-id='org.wikipedia:id/page_list_item_title'])[1]"));
-        firstResult.click();
+
+    @And("User input login Username or Email {string}")
+    public void userInputLoginUsernameOrEmail(String keyword) {
+        WebElement usernameLoginFieldInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]"));
+        usernameLoginFieldInput.click();
+        usernameLoginFieldInput.sendKeys(keyword);
+        
     }
 
-    @Then("Artikel tentang {string} sudah muncul")
-    public void cucumberArticleShowedUp(String keyword) {
-        WebElement articleDescription = driver.findElement(AppiumBy.xpath("//*[@resource-id='pcs-edit-section-title-description']"));
-        String judulArtikel = articleDescription.getText();
-        switch (keyword.toUpperCase()) {
-            case "QUALITY ASSURANCE ENGINEER":
-                assertEquals("Ways of ensuring the quality of a service or product", judulArtikel);
-                break;
-            case "YOGYAKARTA":
-                assertEquals("Capital of the Special Region of Yogyakarta, Indonesia", judulArtikel);
-                break;
-            default:
-                break;
-        }
-
+    @And("User input login Password {string}")
+    public void userInputLoginPassword(String keyword) {
+        WebElement passwordLoginFieldInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText[2]"));
+        passwordLoginFieldInput.click();
+        passwordLoginFieldInput.sendKeys(keyword);
     }
+
+
+    @Then("User see login success message")
+    public void userSeeLoginSuccessMessage() {
+        WebElement loginSucessMessage = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Login Berhasil\"]"));
+        String successMessage = loginSucessMessage.getAttribute("content-desc");
+        assertEquals("Login Berhasil", successMessage);
+    }
+
+    @Then("User see login error message")
+    public void userSeeLoginErrorMessage() {
+        WebElement loginErrorMessage = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Username atau password salah\"]"));
+        String errorMessage = loginErrorMessage.getAttribute("content-desc");
+        assertEquals("Username atau password salah", errorMessage);
+    }
+
+    @And("User click Lihat Semua button")
+    public void userClickLihatSemuaButton() {
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence dragNDrop = new Sequence(finger, 1);
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                PointerInput.Origin.viewport(), 530, 1200));
+        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofSeconds(5),
+                PointerInput.Origin.viewport(), 530, 100));
+        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(dragNDrop));
+        WebElement lihatSemuaButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Lihat Semua\"]"));
+        lihatSemuaButton.click();
+    }
+
+    @And("User click Dosen dan Staf Akademik button")
+    public void userClickDosenDanStafAkademikButton() {
+        WebElement dosenStafAkademikButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Dosen dan Staff Akademik\"]"));
+        dosenStafAkademikButton.click();
+    }
+
+    @And("User click Sarana dan Prasarana button")
+    public void userClickSaranaDanPrasaranaButton() {
+        WebElement saranaPrasaranaButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Sarana dan Prasarana\"]"));
+        saranaPrasaranaButton.click();
+    }
+
+    @And("User click Sistem Perkuliahan button")
+    public void userClickSistemPerkuliahanButton() {
+        WebElement sistemPerkuliahanButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Sistem Perkuliahan\"]\n"));
+        sistemPerkuliahanButton.click();
+    }
+
+    @And("User click Organisasi Mahasiswa button")
+    public void userClickOrganisasiMahasiswaButton() {
+        WebElement organisasiMahasiswaButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Organisasi Mahasiswa\"]"));
+        organisasiMahasiswaButton.click();
+    }
+
+    @And("User click Sesama Mahasiswa button")
+    public void userClickSesamaMahasiswaButton() {
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence dragNDrop = new Sequence(finger, 1);
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                PointerInput.Origin.viewport(), 530, 1000));
+        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(700),
+                PointerInput.Origin.viewport(), 530, 100));
+        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(dragNDrop));
+        WebElement sesamaMahasiswaButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Sesama Mahasiswa\"]"));
+        sesamaMahasiswaButton.click();
+    }
+
+    @And("User click Lainnya button")
+    public void userClickLainnyaButton() {
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence dragNDrop = new Sequence(finger, 1);
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                PointerInput.Origin.viewport(), 530, 1000));
+        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(700),
+                PointerInput.Origin.viewport(), 530, 100));
+        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(dragNDrop));
+        WebElement lainnyaButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Lainnya\"]"));
+        lainnyaButton.click();
+    }
+
+    @And("User go to Laporan page")
+    public void userGoToLaporanPage() {
+        WebElement laporanTitle = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Laporan\"]"));
+        String laporan = laporanTitle.getAttribute("content-desc");
+        assertEquals("Laporan", laporan);
+    }
+
+
+    @And("User see Kategori section")
+    public void userSeeKategoriSection() {
+        WebElement kategoriSection = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Kategori\"]"));
+        String kategoriTitle = kategoriSection.getAttribute("content-desc");
+        assertEquals("Kategori", kategoriTitle);
+    }
+
+    @And("User see all category")
+    public void userSeeAllCategory() {
+        WebElement laporanSection = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Laporan\"]"));
+        String laporanTitle = laporanSection.getAttribute("content-desc");
+        assertEquals("Laporan", laporanTitle);
+    }
+
+    @And("User click Selengkapnya button")
+    public void userClickSelengkapnyaButton() {
+        WebElement selengkapnyaButton = driver.findElement(AppiumBy.xpath("(//android.widget.Button[@content-desc=\"Selengkapnya\"])[1]"));
+        selengkapnyaButton.click();
+    }
+
+    @Then("User see status of Laporan")
+    public void userSeeStatusOfLaporan() {
+        WebElement laporanDetail = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Komentar\"]"));
+        String statusPage = laporanDetail.getAttribute("content-desc");
+        assertEquals("Komentar", statusPage);
+    }
+
+    @And("User click Lihat Berita Terkini button")
+    public void userClickLihatBeritaTerkiniButton() {
+        WebElement beritaButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Lihat Berita Terkini\"]"));
+        beritaButton.click();
+    }
+
+    @And("User go to Berita page")
+    public void userGoToBeritaPage() {
+        WebElement beritaSection = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Berita Terkini\"]"));
+        String beritaTitle = beritaSection.getAttribute("content-desc");
+        assertEquals("Berita Terkini", beritaTitle);
+    }
+
+    @And("User click one of the Berita")
+    public void userClickOneOfTheBerita() {
+        WebElement readButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Selengkapnya\"]"));
+        readButton.click();
+    }
+
+    @Then("User see the Berita")
+    public void userSeeTheBerita() {
+        WebElement beritaPage = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Baca Juga\"]"));
+        String bacaJuga = beritaPage.getAttribute("content-desc");
+        assertEquals("Baca Juga", bacaJuga);
+    }
+
+
 }
