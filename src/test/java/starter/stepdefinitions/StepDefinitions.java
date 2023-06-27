@@ -198,7 +198,7 @@ public class StepDefinitions {
 
     @And("User click one of the Berita")
     public void userClickOneOfTheBerita() {
-        WebElement readButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Selengkapnya\"]"));
+        WebElement readButton = driver.findElement(AppiumBy.xpath("(//android.view.View[@content-desc=\"Selengkapnya\"])[1]"));
         readButton.click();
     }
 
@@ -217,38 +217,42 @@ public class StepDefinitions {
     }
 
     @And("User input register Username {string}")
-    public void userInputRegisterUsername(String keyword) {
-        WebElement usernameRegisterInput = driver.findElement(AppiumBy.xpath( ""));
+    public void userInputRegisterUsername(String args) {
+        WebElement usernameRegisterInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText[1]"));
         usernameRegisterInput.click();
-        usernameRegisterInput.sendKeys(keyword);
+        usernameRegisterInput.sendKeys(randomFullName);
     }
 
     @And("User input register Email {string}")
-    public void userInputRegisterEmail(String keyword) {
-        WebElement emailRegisterInput = driver.findElement(AppiumBy.xpath( ""));
+    public void userInputRegisterEmail(String args) {
+        WebElement emailRegisterInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText[2]"));
         emailRegisterInput.click();
-        emailRegisterInput.sendKeys(keyword);
+        emailRegisterInput.sendKeys(randomEmail);
+        driver.navigate().back();
     }
 
     @And("User input register Nomor Whatsapp {string}")
     public void userInputRegisterNomorWhatsapp(String keyword) {
-        WebElement noWhatsappInput = driver.findElement(AppiumBy.xpath( ""));
+        WebElement noWhatsappInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText[3]"));
         noWhatsappInput.click();
         noWhatsappInput.sendKeys(keyword);
+        driver.navigate().back();
     }
 
     @And("User input register Password {string}")
     public void userInputRegisterPassword(String keyword) {
-        WebElement passwordRegisterInput = driver.findElement(AppiumBy.xpath( ""));
+        WebElement passwordRegisterInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText[4]"));
         passwordRegisterInput.click();
         passwordRegisterInput.sendKeys(keyword);
+        driver.navigate().back();
     }
 
     @And("User input register Confirm Password {string}")
     public void userInputRegisterConfirmPassword(String keyword) {
-        WebElement confirmPasswordInput = driver.findElement(AppiumBy.xpath( ""));
+        WebElement confirmPasswordInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText[5]"));
         confirmPasswordInput.click();
         confirmPasswordInput.sendKeys(keyword);
+        driver.navigate().back();
     }
 
     @And("User click Daftar button")
@@ -257,11 +261,134 @@ public class StepDefinitions {
         daftarButton.click();
     }
 
-    @Then("User see register success message")
-    public void userSeeRegisterSuccessMessage() {
+    @And("User click Riwayat Laporan Button")
+    public void userClickRiwayatLaporanButton() {
+        WebElement riwayatLaporanButton = driver.findElement(AppiumBy.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[4]"));
+        riwayatLaporanButton.click();
     }
 
-    @Then("User see register error message")
-    public void userSeeRegisterErrorMessage() {
+    @And("User go to Riwayat Laporan Page")
+    public void userGoToRiwayatLaporanPage() {
+        WebElement riwayatLaporanPage = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Riwayat Laporan\"]"));
+        String riwayatLaporan = riwayatLaporanPage.getAttribute("content-desc");
+        assertEquals("Riwayat Laporan", riwayatLaporan);
+    }
+
+    @And("User click Detail Button")
+    public void userClickDetailButton() {
+        WebElement detailBUtton = driver.findElement(AppiumBy.xpath("(//android.widget.Button[@content-desc=\"Detail\"])[1]"));
+        detailBUtton.click();
+    }
+
+    @And("User see Status Complaint")
+    public void userSeeStatusComplaint() {
+        WebElement statusComplaintPage = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Status Complaint\"]"));
+        String statusComplaint = statusComplaintPage.getAttribute("content-desc");
+        assertEquals("Status Complaint", statusComplaint);
+    }
+
+    @And("User click Create Complaint button")
+    public void userClickCreateComplaintButton() {
+        WebElement createComplaintButton = driver.findElement(AppiumBy.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ImageView[3]"));
+        createComplaintButton.click();
+    }
+
+    @And("User click Pengaduan button")
+    public void userClickPengaduanButton() {
+        WebElement pengaduanButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Pengaduan\"]"));
+        pengaduanButton.click();
+    }
+
+    @And("User click Aspirasi button")
+    public void userClickAspirasiButton() {
+        WebElement aspirasiButton = driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Aspirasi\"]"));
+        aspirasiButton.click();
+    }
+
+    @And("User input complaint message {string}")
+    public void userInputComplaintMessage(String keyword) {
+        WebElement complaintInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText"));
+        complaintInput.click();
+        complaintInput.sendKeys(keyword);
+        driver.navigate().back();
+    }
+
+    @And("User click Jenis Laporan Terbuka button")
+    public void userClickJenisLaporanTerbukaButton() {
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence dragNDrop = new Sequence(finger, 1);
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                PointerInput.Origin.viewport(), 530, 1000));
+        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(700),
+                PointerInput.Origin.viewport(), 530, 100));
+        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(dragNDrop));
+        WebElement terbukaButton = driver.findElement(AppiumBy.xpath("//android.widget.RadioButton[@content-desc=\"Terbuka\"]"));
+        terbukaButton.click();
+    }
+
+    @And("User click Jenis Laporan Tertutup button")
+    public void userClickJenisLaporanTertutupButton() {
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence dragNDrop = new Sequence(finger, 1);
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                PointerInput.Origin.viewport(), 530, 1000));
+        dragNDrop.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        dragNDrop.addAction(finger.createPointerMove(Duration.ofMillis(700),
+                PointerInput.Origin.viewport(), 530, 100));
+        dragNDrop.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(dragNDrop));
+        WebElement tertutupButton = driver.findElement(AppiumBy.xpath("//android.widget.RadioButton[@content-desc=\"Rahasia\"]"));
+        tertutupButton.click();
+    }
+
+    @And("User click Submit Complaint button")
+    public void userClickSubmitComplaintButton() {
+        WebElement submitComplaintButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Daftar\"]"));
+        submitComplaintButton.click();
+    }
+
+    @And("User see success message")
+    public void userSeeSuccessMessage() {
+        WebElement successComplaint = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Lihat Laporan\"]"));
+        String successMessage = successComplaint.getAttribute("content-desc");
+        assertEquals("Lihat Laporan", successMessage);
+    }
+
+    @And("User click Category Dosen dan Staff Akademik button")
+    public void userClickCategoryDosenDanStaffAkademikButton() {
+        WebElement category1Button = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Dosen dan Staff Akademik\"]"));
+        category1Button.click();
+    }
+
+    @And("User click Category Sarana dan Prasarana button")
+    public void userClickCategorySaranaDanPrasaranaButton() {
+        WebElement category2Button = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Sarana dan Prasarana\"]"));
+        category2Button.click();
+    }
+
+    @And("User click Category Organisasi Mahasiswa button")
+    public void userClickCategoryOrganisasiMahasiswaButton() {
+        WebElement category3Button = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Organisasi Mahasiswa\"]"));
+        category3Button.click();
+    }
+
+    @And("User click Category Sistem Perkuliahan button")
+    public void userClickCategorySistemPerkuliahanButton() {
+        WebElement category4Button = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Sistem Perkuliahan\"]"));
+        category4Button.click();
+    }
+
+    @And("User click Category Mahasiswa button")
+    public void userClickCategoryMahasiswaButton() {
+        WebElement category5Button = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Mahasiswa\"]"));
+        category5Button.click();
+    }
+
+    @And("User click Category Lainnya button")
+    public void userClickCategoryLainnyaButton() {
+        WebElement category6Button = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Lainnya\"]"));
+        category6Button.click();
     }
 }
