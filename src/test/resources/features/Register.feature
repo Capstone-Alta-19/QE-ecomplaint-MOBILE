@@ -12,7 +12,7 @@
       And User input register Password "12345678"
       And User input register Confirm Password "12345678"
       And User click Daftar button
-      Then User see register message "Register Berhasil"
+      Then User see register success message
 
     @User @Authentication @Register @Negative
     Scenario: User can register with invalid data wrong Email
@@ -25,4 +25,4 @@
       And User input register Password "12345678"
       And User input register Confirm Password "salahpass"
       And User click Daftar button
-      Then User see register message "Username atau password salah"
+      Then User see register error message

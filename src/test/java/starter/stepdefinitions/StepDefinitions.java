@@ -176,11 +176,11 @@ public class StepDefinitions {
         selengkapnyaButton.click();
     }
 
-    @Then("User see status of Laporan")
-    public void userSeeStatusOfLaporan() {
+    @Then("User see komentar of Laporan")
+    public void userSeeKomentarOfLaporan() {
         WebElement laporanDetail = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Komentar\"]"));
-        String statusPage = laporanDetail.getAttribute("content-desc");
-        assertEquals("Komentar", statusPage);
+        String komentarPage = laporanDetail.getAttribute("content-desc");
+        assertEquals("Komentar", komentarPage);
     }
 
     @And("User click Lihat Berita Terkini button")
@@ -210,4 +210,58 @@ public class StepDefinitions {
     }
 
 
+    @And("User click Buat Akun Baru")
+    public void userClickBuatAkunBaru() {
+        WebElement registerButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Buat Akun Baru\"]"));
+        registerButton.click();
+    }
+
+    @And("User input register Username {string}")
+    public void userInputRegisterUsername(String keyword) {
+        WebElement usernameRegisterInput = driver.findElement(AppiumBy.xpath( ""));
+        usernameRegisterInput.click();
+        usernameRegisterInput.sendKeys(keyword);
+    }
+
+    @And("User input register Email {string}")
+    public void userInputRegisterEmail(String keyword) {
+        WebElement emailRegisterInput = driver.findElement(AppiumBy.xpath( ""));
+        emailRegisterInput.click();
+        emailRegisterInput.sendKeys(keyword);
+    }
+
+    @And("User input register Nomor Whatsapp {string}")
+    public void userInputRegisterNomorWhatsapp(String keyword) {
+        WebElement noWhatsappInput = driver.findElement(AppiumBy.xpath( ""));
+        noWhatsappInput.click();
+        noWhatsappInput.sendKeys(keyword);
+    }
+
+    @And("User input register Password {string}")
+    public void userInputRegisterPassword(String keyword) {
+        WebElement passwordRegisterInput = driver.findElement(AppiumBy.xpath( ""));
+        passwordRegisterInput.click();
+        passwordRegisterInput.sendKeys(keyword);
+    }
+
+    @And("User input register Confirm Password {string}")
+    public void userInputRegisterConfirmPassword(String keyword) {
+        WebElement confirmPasswordInput = driver.findElement(AppiumBy.xpath( ""));
+        confirmPasswordInput.click();
+        confirmPasswordInput.sendKeys(keyword);
+    }
+
+    @And("User click Daftar button")
+    public void userClickDaftarButton() {
+        WebElement daftarButton = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Daftar\"]"));
+        daftarButton.click();
+    }
+
+    @Then("User see register success message")
+    public void userSeeRegisterSuccessMessage() {
+    }
+
+    @Then("User see register error message")
+    public void userSeeRegisterErrorMessage() {
+    }
 }
