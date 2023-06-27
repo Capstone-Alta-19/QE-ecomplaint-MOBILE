@@ -391,4 +391,33 @@ public class StepDefinitions {
         WebElement category6Button = driver.findElement(AppiumBy.xpath("//android.widget.Button[@content-desc=\"Lainnya\"]"));
         category6Button.click();
     }
+
+    @Then("User see register error message")
+    public void userSeeRegisterErrorMessage() {
+        WebElement errorRegister = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Password tidak Cocok\"]"));
+        String errorRegisterMessage = errorRegister.getAttribute("content-desc");
+        assertEquals("Password tidak Cocok", errorRegisterMessage);
+    }
+
+    @Then("User see register success message")
+    public void userSeeRegisterSuccessMessage() {
+        WebElement successRegister = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Register Berhasil\"]"));
+        String successRegisterMessage = successRegister.getAttribute("content-desc");
+        assertEquals("Register Berhasil", successRegisterMessage);
+    }
+
+    @Then("User see register new error message")
+    public void userSeeRegisterNewErrorMessage() {
+        WebElement failedRegister = driver.findElement(AppiumBy.xpath("//android.view.View[@content-desc=\"Register Gagal\"]"));
+        String failRegisterMessage = failedRegister.getAttribute("content-desc");
+        assertEquals("Register Gagal", failRegisterMessage);
+    }
+
+    @And("User input wrong register Email {string}")
+    public void userInputWrongRegisterEmail(String keyword) {
+        WebElement wrongEmailRegisterInput = driver.findElement(AppiumBy.xpath( "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.widget.ScrollView/android.widget.EditText[2]"));
+        wrongEmailRegisterInput.click();
+        wrongEmailRegisterInput.sendKeys(keyword);
+        driver.navigate().back();
+    }
 }
